@@ -23,8 +23,21 @@ end
 
 
 
-function transformation_matrix_inverse_ij(i,j,reaction_matrix)
-    return s_ij
+function transformation_matrix_inverse_ij(i,j,decay_rates)
+     s_ij = ones(eltype(decay_rates[1]))
+     s_ij = decay_rates[j]/ (decay_rates[i] - decay_rates[j])
+    # Loop over generations
+    for l in 1: (i-j-1)
+        # Loop over species idnex of species ancestor
+        for m in j:(i-1)
+            println(l,m)
+            println(decay_rates[m], decay_rates[i])
+            println(decay_rates[m] / (decay_rates[m] - decay_rates[ji]))
+            s_ij *= decay_rates[m] / (decay_rates[m] - decay_rates[j])
+            println(s_ij)
+        end
+    end
+    return s_ij    
 end
 
 
