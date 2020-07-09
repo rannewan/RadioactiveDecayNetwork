@@ -6,15 +6,11 @@ end
 
 
 
-function transformation_matrix_ij(i,j,λ)
+function transformation_matrix_inverse_ij(i,j,λ)
     # s_ij = ones(eltype(λ[1]))
     s_ij = 1.0
     # Loop over species ancestor index l for species i with (i-j) generations
     for l in j: (i-1)
-        # println(l)
-        # println(λ[l])
-        # println( (λ[l] - λ[i]))
-        # println(λ[l] / (λ[l] - λ[i]))
         s_ij *= λ[l] / (λ[l] - λ[i])
     end
     return s_ij
@@ -22,17 +18,11 @@ end
 
 
 
-function transformation_matrix_inverse_ij(i,j,λ)
-     # s_ij = ones(eltype(λ[1]))
-     s_ij = λ[j]/ (λ[i] - λ[j])
-     # Loop over species ancestor index l for species i with (i-j) generations
+function transformation_matrix_ij(i,j,λ)
+    # s_ij = ones(eltype(λ[1]))
+    s_ij = λ[j]/ (λ[i] - λ[j])
+    # Loop over species ancestor index l for species i with (i-j) generations
     for l in (j+1): (i-1)
-        # println(i,j)
-        # println(l)
-        # println(λ[l])
-        # println(λ[j])
-        # println( (λ[l] - λ[j]))
-        # println(λ[l] / (λ[l] - λ[j]))
         s_ij *= λ[l] / (λ[l] - λ[j])
     end
     return s_ij
@@ -56,7 +46,9 @@ function retrieve_generation_number(i,j)
     return (i-j)
 end
 
-function transformation_matrix_inverse_5x5()
+
+
+function transformation_matrix_5x5()
     λ = [1.0; 2.0; 3.0; 4.0; 5.0; ]
 
     s = zeros(5,5)
@@ -85,7 +77,8 @@ function transformation_matrix_inverse_5x5()
 end
 
 
-function transformation_matrix_5x5()
+
+function transformation_matrix_inverse_5x5()
     λ = [1.0; 2.0; 3.0; 4.0; 5.0; ]
 
     s = zeros(5,5)
