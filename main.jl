@@ -6,34 +6,34 @@ end
 
 
 
-function transformation_matrix_ij(i,j,decay_rates)
-    # s_ij = ones(eltype(decay_rates[1]))
+function transformation_matrix_ij(i,j,λ)
+    # s_ij = ones(eltype(λ[1]))
     s_ij = 1.0
     # Loop over species ancestor index l for species i with (i-j) generations
     for l in j: (i-1)
         # println(l)
-        # println(decay_rates[l])
-        # println( (decay_rates[l] - decay_rates[i]))
-        # println(decay_rates[l] / (decay_rates[l] - decay_rates[i]))
-        s_ij *= decay_rates[l] / (decay_rates[l] - decay_rates[i])
+        # println(λ[l])
+        # println( (λ[l] - λ[i]))
+        # println(λ[l] / (λ[l] - λ[i]))
+        s_ij *= λ[l] / (λ[l] - λ[i])
     end
     return s_ij
 end
 
 
 
-function transformation_matrix_inverse_ij(i,j,decay_rates)
-     # s_ij = ones(eltype(decay_rates[1]))
-     s_ij = decay_rates[j]/ (decay_rates[i] - decay_rates[j])
+function transformation_matrix_inverse_ij(i,j,λ)
+     # s_ij = ones(eltype(λ[1]))
+     s_ij = λ[j]/ (λ[i] - λ[j])
      # Loop over species ancestor index l for species i with (i-j) generations
     for l in (j+1): (i-1)
         # println(i,j)
         # println(l)
-        # println(decay_rates[l])
-        # println(decay_rates[j])
-        # println( (decay_rates[l] - decay_rates[j]))
-        # println(decay_rates[l] / (decay_rates[l] - decay_rates[j]))
-        s_ij *= decay_rates[l] / (decay_rates[l] - decay_rates[j])
+        # println(λ[l])
+        # println(λ[j])
+        # println( (λ[l] - λ[j]))
+        # println(λ[l] / (λ[l] - λ[j]))
+        s_ij *= λ[l] / (λ[l] - λ[j])
     end
     return s_ij
 end
@@ -61,7 +61,7 @@ function transformation_matrix_inverse_5x5()
 
     s = zeros(5,5)
     s[1,1] = 1
-    
+
     s[2,1] = λ[1]/(λ[2]-λ[1])
     s[3,1] = λ[1]/(λ[3]-λ[1]) * λ[2]/(λ[2]-λ[1])
     s[4,1] = λ[1]/(λ[4]-λ[1]) * λ[2]/(λ[2]-λ[1]) * λ[3]/(λ[3]-λ[1])
