@@ -48,8 +48,8 @@ end
 
 
 
-function transformation_matrix_5x5()
-    λ = [1.0; 2.0; 3.0; 4.0; 5.0; ]
+function transformation_matrix_5x5(λ = [1.0; 2.0; 3.0; 4.0; 5.0; ])
+
 
     s = zeros(5,5)
     s[1,1] = 1
@@ -78,8 +78,7 @@ end
 
 
 
-function transformation_matrix_inverse_5x5()
-    λ = [1.0; 2.0; 3.0; 4.0; 5.0; ]
+function transformation_matrix_inverse_5x5(λ = [1.0; 2.0; 3.0; 4.0; 5.0; ])
 
     s = zeros(5,5)
     s[1,1] = 1
