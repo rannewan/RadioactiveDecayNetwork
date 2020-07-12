@@ -7,8 +7,7 @@ end
 
 
 function transformation_matrix_inverse_ij(i,j,λ)
-    # s_ij = ones(eltype(λ[1]))
-    s_ij = 1.0
+    s_ij::eltype(λ) = 1.0
     # Loop over species ancestor index l for species i with (i-j) generations
     for l in j: (i-1)
         s_ij *= λ[l] / (λ[l] - λ[i])
@@ -19,7 +18,6 @@ end
 
 
 function transformation_matrix_ij(i,j,λ)
-    # s_ij = ones(eltype(λ[1]))
     s_ij = λ[j]/ (λ[i] - λ[j])
     # Loop over species ancestor index l for species i with (i-j) generations
     for l in (j+1): (i-1)
@@ -32,12 +30,11 @@ end
 
 function assemble_transformation_matrix(λ)
     n = length(λ)
-    S = zeros(length(λ),length(λ))
+    S = zeros(eltype(λ),length(λ),length(λ))
     S = UnitLowerTriangular(S)
     for i in 2:n
         for j in 1:(i-1)
             S[i,j] = transformation_matrix_ij(i,j,λ)
-            # println(transformation_matrix_inverse_ij(i,j,λ))
         end
     end
     return S
@@ -47,9 +44,9 @@ end
 
 function assemble_transformation_matrix_inverse(λ)
     n = length(λ)
-    S_inv = zeros(n,n)
+    S_inv = zeros(eltype(λ),length(λ),length(λ))
     S_inv = UnitLowerTriangular(S_inv)
-    for i in 1:n
+    for i in 2:n
         for j in 1:i
             S_inv[i,j] = transformation_matrix_inverse_ij(i,j,λ)
         end
@@ -66,7 +63,6 @@ end
 
 
 function transformation_matrix_5x5(λ = [1.0; 2.0; 3.0; 4.0; 5.0; ])
-
 
     s = zeros(5,5)
     s[1,1] = 1
