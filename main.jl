@@ -6,6 +6,15 @@ end
 
 
 
+function calculate_concentration(c_0,λ,t)
+    Λ       = Diagonal(λ)
+    S_inv   = assemble_transformation_matrix_inverse(λ)
+    S       = assemble_transformation_matrix(λ)
+    return exp(S*Λ*S_inv*t) * c_0
+end
+
+
+
 function transformation_matrix_inverse_ij(i,j,λ)
     s_ij::eltype(λ) = 1.0
     # Loop over species ancestor index l for species i with (i-j) generations
