@@ -6,11 +6,12 @@ end
 
 
 
-function calculate_concentration(c_0,λ,t)
+function calculate_concentration(c_0,λ,Δt)
     Λ       = Diagonal(λ)
     S_inv   = assemble_transformation_matrix_inverse(λ)
     S       = assemble_transformation_matrix(λ)
-    return exp(S*Λ*S_inv*t) * c_0
+    A       = S_inv*Λ*S*Δt
+    return exp(A) * c_0
 end
 
 
