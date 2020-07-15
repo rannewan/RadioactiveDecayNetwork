@@ -8,9 +8,9 @@ end
 
 function calculate_concentration(c_0, λ, Δt)
     Λ = Diagonal(λ)
-    S_inv = assemble_transformation_matrix_inverse(λ)
+    R = assemble_transformation_matrix_inverse(λ)
     S = assemble_transformation_matrix(λ)
-    A = S_inv * Λ * S * Δt
+    A = S * Λ * R * Δt
     return exp(A) * c_0
 end
 
@@ -54,14 +54,14 @@ end
 
 function assemble_transformation_matrix_inverse(λ)
     n = length(λ)
-    S_inv = zeros(eltype(λ), length(λ), length(λ))
-    S_inv = UnitLowerTriangular(S_inv)
+    R = zeros(eltype(λ), length(λ), length(λ))
+    R = UnitLowerTriangular(R)
     for i = 2:n
         for j = 1:i
-            S_inv[i, j] = transformation_matrix_inverse_ij(i, j, λ)
+            R[i, j] = transformation_matrix_inverse_ij(i, j, λ)
         end
     end
-    return S_inv
+    return R
 end
 
 
@@ -81,8 +81,8 @@ function transformation_matrix_5x5(λ = [1.0; 2.0; 3.0; 4.0; 5.0])
     s[3, 1] = λ[1] / (λ[3] - λ[1]) * λ[2] / (λ[2] - λ[1])
     s[4, 1] = λ[1] / (λ[4] - λ[1]) * λ[2] / (λ[2] - λ[1]) * λ[3] / (λ[3] - λ[1])
     s[5, 1] =
-        λ[1] / (λ[5] - λ[1]) * λ[2] / (λ[2] - λ[1]) * λ[3] / (λ[3] - λ[1]) *
-        λ[4] / (λ[4] - λ[1])
+        λ[1] / (λ[5] - λ[1]) * λ[2] / (λ[2] - λ[1]) *
+        λ[3] / (λ[3] - λ[1]) * λ[4] / (λ[4] - λ[1])
 
     s[2, 2] = 1
     s[3, 2] = λ[2] / (λ[3] - λ[2])
